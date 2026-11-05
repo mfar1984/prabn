@@ -968,43 +968,58 @@
     .letter-row span.pending-text { color: var(--red); font-weight: 800; }
 
     /* Signboard */
+    @keyframes signboard-reveal {
+      from { opacity: 0; transform: translateY(1.1cqw) scale(.965); filter: saturate(.72) brightness(.9); }
+      to { opacity: 1; transform: none; filter: none; }
+    }
+    @keyframes signboard-scan {
+      0% { top: -14%; opacity: 0; }
+      12% { opacity: .75; }
+      72% { opacity: .55; }
+      100% { top: 112%; opacity: 0; }
+    }
     .signboard-layout { display: grid; grid-template-columns: 1fr 25.2cqw; gap: 2.3cqw; }
-    .signboard-stage { display: grid; place-items: center; padding: 2.2cqw; background: #e7edf1; }
-    .signboard {
+    .signboard-stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 1.05cqw;
+      background: #f8fbfd;
+    }
+    .signboard-asset {
       position: relative;
       width: 100%;
-      height: 35.3cqw;
-      border: .18cqw solid var(--navy);
+      height: 100%;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #bdd5e1;
+      border-radius: .72cqw;
       background: white;
-      box-shadow: 0 .38cqw .6cqw rgba(11,45,79,.23);
+      box-shadow: inset 0 0 1.4cqw rgba(11,45,79,.06);
     }
-    .signboard::before, .signboard::after {
+    .signboard-asset::before {
       content: "";
       position: absolute;
-      bottom: -2.65cqw;
-      width: 1.05cqw;
-      height: 2.65cqw;
-      background: var(--navy);
+      left: 2%;
+      right: 2%;
+      top: -14%;
+      z-index: 2;
+      height: .2cqw;
+      background: linear-gradient(90deg, transparent, var(--cyan), white, var(--cyan), transparent);
+      box-shadow: 0 0 .85cqw rgba(37,183,196,.72);
+      pointer-events: none;
     }
-    .signboard::before { left: 4cqw; }
-    .signboard::after { right: 4cqw; }
-    .board-head {
-      height: 5cqw;
-      display: grid;
-      grid-template-columns: 5.5cqw 1fr 5.5cqw;
-      align-items: center;
-      padding: .45cqw 1.1cqw;
-      color: white;
-      background: var(--navy);
+    .signboard-asset img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform .32s ease, filter .32s ease;
     }
-    .board-head img { width: 3.8cqw; max-height: 4cqw; object-fit: contain; background: white; }
-    .board-head strong { text-align: center; font-size: 1.48cqw; }
-    .board-project { padding: 4.2cqw 3.1cqw 3cqw; color: var(--navy); font-size: 1.04cqw; line-height: 1.33; text-align: center; font-weight: 900; }
-    .board-rule { height: .3cqw; margin: 0 2.2cqw 2.4cqw; background: var(--cyan); }
-    .board-details { display: grid; grid-template-columns: 11.6cqw 1fr; gap: 1.35cqw .7cqw; padding: 0 3cqw; font-size: .72cqw; }
-    .board-details b { color: var(--muted); }
-    .board-details span { color: var(--navy); font-weight: 800; }
-    .board-ansar { position: absolute; right: 4cqw; bottom: 1.9cqw; width: 8cqw; }
+    .slide.active .signboard-asset img { animation: signboard-reveal .82s .22s ease-out both; }
+    .slide.active .signboard-asset::before { animation: signboard-scan 4.2s 1.2s ease-in-out infinite; }
+    .signboard-asset:hover img { transform: scale(1.025); filter: saturate(1.06) contrast(1.02); }
     .approval-card { padding: 2.8cqw 2.4cqw; }
 
     /* Readiness */
@@ -1995,8 +2010,8 @@
         <header class="slide-header"><span class="section-chip">09</span><div class="heading-group"><h2>Cadangan Papan Tanda Projek</h2><p>Konsep kandungan untuk semakan JPS sebelum fabrikasi</p></div></header>
         <div class="brand-lockup"><img src="presentation_assets/logo_2.jpeg" alt="JPS"><span class="divider"></span><img src="presentation_assets/logo_1.jpeg" alt="Ansar"></div>
         <div class="content signboard-layout">
-          <section class="card signboard-stage"><div class="signboard"><div class="board-head"><img src="presentation_assets/logo_2.jpeg" alt="JPS"><strong>PAPAN TANDA PROJEK</strong><span></span></div><div class="board-project">KERJA-KERJA PENGUBAHSUAIAN RUANG PEJABAT TRANSIT PUSAT RAMALAN DAN AMARAN BANJIR NEGARA (PRABN) SERTA KERJA-KERJA LAIN YANG BERKAITAN DI IBU PEJABAT JPS MALAYSIA, CYBERJAYA, SELANGOR</div><div class="board-rule"></div><div class="board-details"><b>PEMILIK PROJEK</b><span>Jabatan Pengairan dan Saliran Malaysia</span><b>NO. KONTRAK</b><span>JPS/IP/SH/BBI/01/2026</span><b>KONTRAKTOR</b><span>Ansar Technologies Sdn Bhd</span><b>TEMPOH</b><span>13 November 2026 — 12 April 2027</span></div><img class="board-ansar" src="presentation_assets/logo_1.jpeg" alt="Ansar"></div></section>
-          <section class="card approval-card" style="--accent:var(--teal);--bullet:var(--teal)"><span class="eyebrow" style="color:var(--teal)">Untuk Pengesahan</span><ul class="bullets" style="margin-top:3cqw"><li>Saiz dan lokasi pemasangan</li><li>Format / templat rasmi JPS</li><li>Susun atur dan warna rasmi JPS</li><li>Nama pegawai / bahagian</li><li>Bahan, struktur dan kemasan</li><li>Keperluan keselamatan tapak</li></ul><span class="status review" style="position:absolute;left:2.8cqw;right:2.8cqw;bottom:3cqw">Tertakluk kelulusan JPS</span></section>
+          <section class="card signboard-stage" style="--accent:var(--blue)"><a class="signboard-asset" href="presentation_assets/project_signboard_jps.png" target="_blank" aria-label="Buka reka bentuk papan tanda projek JPS pada saiz penuh"><img src="presentation_assets/project_signboard_jps.png" alt="Reka bentuk sebenar papan tanda projek JPS yang memaparkan nama projek, pemilik, pengurus projek serta tarikh mula dan siap"></a></section>
+          <section class="card approval-card" style="--accent:var(--teal);--bullet:var(--teal)"><span class="eyebrow" style="color:var(--teal)">Untuk Pengesahan</span><ul class="bullets" style="margin-top:3cqw"><li>Saiz dan lokasi pemasangan</li><li>Format / templat rasmi JPS</li><li>Nombor kontrak akhir</li><li>Nama pegawai / bahagian</li><li>Bahan, struktur dan kemasan</li><li>Keperluan keselamatan tapak</li></ul><span class="status review" style="position:absolute;left:2.8cqw;right:2.8cqw;bottom:3cqw">Tertakluk kelulusan JPS</span></section>
         </div>
         <footer class="footer"><span>Pengubahsuaian Ruang Pejabat Transit PRABN</span><span class="page">18</span></footer>
       </article>
